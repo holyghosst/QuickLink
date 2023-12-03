@@ -17,17 +17,21 @@ export default class QuickLinkPlugin extends Plugin{
 		
 		this.addSettingTab(new QuickLinkSettingTab(this.app, this));
 
-		let delimiter = this.settings.delimiter_char
+		let settings = this.settings
+
 		this.addCommand({
 			id: "add-quick-link",
 			name: "Add quick link",
 			editorCallback(editor: Editor) {
+				let delimiter = settings.delimiter_char
 				const link = editor.getSelection();
 				const link_array = link.split(delimiter)
 				editor.replaceSelection("[[" + link_array[0] + "|" + link_array[1] + "]]");
 			}
 		});
+		
 	}
+	
 
 
 	async loadSettings() {
