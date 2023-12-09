@@ -24,9 +24,17 @@ export default class QuickLinkPlugin extends Plugin{
 			name: "Add quick link",
 			editorCallback(editor: Editor) {
 				let delimiter = settings.delimiter_char
-				const link = editor.getSelection();
-				const link_array = link.split(delimiter)
+				const link_string = editor.getSelection();
+
+				if(link_string.contains(delimiter)) {
+					const link_array = link_string.split(delimiter)
 				editor.replaceSelection("[[" + link_array[0] + "|" + link_array[1] + "]]");
+				}
+				else {
+					editor.replaceSelection("[[" + link_string + "]]")
+				}
+
+				
 			}
 		});
 		

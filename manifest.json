@@ -1,7 +1,7 @@
 {
 	"id": "quick-link",
 	"name": "QuickLink",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"minAppVersion": "0.15.0",
 	"description": "Creating quick hyperlinks.",
 	"author": "holyghosst",
