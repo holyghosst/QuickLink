@@ -1,6 +1,5 @@
-import {App, Plugin, Editor, PluginSettingTab, Setting} from "obsidian"
-import { delimiter } from "path";
-import { text } from "stream/consumers";
+import {App, Plugin, Editor, PluginSettingTab, Setting, Menu, Notice, MarkdownView} from "obsidian"
+
 
 interface QuickLinkSettings {
 	delimiter_char: string;
@@ -18,6 +17,35 @@ export default class QuickLinkPlugin extends Plugin{
 		this.addSettingTab(new QuickLinkSettingTab(this.app, this));
 
 		let settings = this.settings
+
+
+		this.addRibbonIcon("link", "QuickLink", (event) => {
+			const menu = new Menu();
+	  
+			menu.addItem((item) =>
+			  item
+				.setTitle("Create hyperlink")
+				.setIcon("documents")
+				.onClick(() => {
+						const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+						if(view) {
+							let delimiter = settings.delimiter_char
+							const link_string = view.editor.getSelection();
+							if(link_string.contains(delimiter)) {
+								const link_array = link_string.split(delimiter)
+							view.editor.replaceSelection("[[" + link_array[0] + "|" + link_array[1] + "]]");
+							}
+							else {
+								view.editor.replaceSelection("[[" + link_string + "]]")
+							}
+						}
+						
+						
+					})
+			);
+	  
+			menu.showAtMouseEvent(event);
+		  });
 
 		this.addCommand({
 			id: "add-quick-link",
